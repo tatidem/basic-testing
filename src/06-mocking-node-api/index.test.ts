@@ -68,7 +68,7 @@ describe('doStuffByInterval', () => {
     const interval = 1000;
 
     doStuffByInterval(callback, interval);
-    jest.advanceTimersByTime(interval * 3); // simulate 3 intervals
+    jest.advanceTimersByTime(interval * 3);
 
     expect(callback).toHaveBeenCalledTimes(3);
   });
