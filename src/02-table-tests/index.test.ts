@@ -1,17 +1,77 @@
-// Uncomment the code below and write your tests
-/* import {  simpleCalculator, Action } from './index';
-
-const testCases = [
-    { a: 1, b: 2, action: Action.Add, expected: 3 },
-    { a: 2, b: 2, action: Action.Add, expected: 4 },
-    { a: 3, b: 2, action: Action.Add, expected: 5 },
-    // continue cases for other actions    
-]; */
+import { simpleCalculator, Action, RawCalculatorInput } from './index';
 
 describe('simpleCalculator', () => {
-  // This test case is just to run this test suite, remove it when you write your own tests
-  test('should blah-blah', () => {
-    expect(true).toBe(true);
+  describe('valid operations', () => {
+    const validCases = [
+      {
+        description: 'should add two numbers',
+        input: { a: 5, b: 3, action: Action.Add },
+        expected: 8,
+      },
+      {
+        description: 'should subtract two numbers',
+        input: { a: 10, b: 4, action: Action.Subtract },
+        expected: 6,
+      },
+      {
+        description: 'should multiply two numbers',
+        input: { a: 7, b: 2, action: Action.Multiply },
+        expected: 14,
+      },
+      {
+        description: 'should divide two numbers',
+        input: { a: 15, b: 3, action: Action.Divide },
+        expected: 5,
+      },
+      {
+        description: 'should exponentiate two numbers',
+        input: { a: 2, b: 3, action: Action.Exponentiate },
+        expected: 8,
+      },
+      {
+        description: 'should handle negative numbers in addition',
+        input: { a: -5, b: -3, action: Action.Add },
+        expected: -8,
+      },
+      {
+        description: 'should handle negative numbers in multiplication',
+        input: { a: -2, b: 3, action: Action.Multiply },
+        expected: -6,
+      },
+      {
+        description: 'should handle division by zero',
+        input: { a: 5, b: 0, action: Action.Divide },
+        expected: Infinity,
+      },
+    ];
+
+    test.each(validCases)('$description', ({ input, expected }) => {
+      expect(simpleCalculator(input)).toBe(expected);
+    });
   });
-  // Consider to use Jest table tests API to test all cases above
+
+  describe('invalid inputs', () => {
+    const invalidCases = [
+      {
+        description: 'should return null for invalid action',
+        input: { a: 2, b: 3, action: '%' },
+      },
+      {
+        description: 'should return null for invalid first argument',
+        input: { a: '2', b: 3, action: Action.Add },
+      },
+      {
+        description: 'should return null for invalid second argument',
+        input: { a: 2, b: '3', action: Action.Add },
+      },
+      {
+        description: 'should return null for both invalid arguments',
+        input: { a: '2', b: '3', action: Action.Add },
+      },
+    ];
+
+    test.each(invalidCases)('$description', ({ input }) => {
+      expect(simpleCalculator(input as RawCalculatorInput)).toBeNull();
+    });
+  });
 });
